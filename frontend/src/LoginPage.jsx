@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const API = "/api";
+const API = "https://teacher-portal-c5q8.onrender.com/api";
 
 export default function LoginPage({ onLogin }) {
   const [code, setCode] = useState("");

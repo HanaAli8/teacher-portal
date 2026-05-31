@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-const API = "/api";
+const API = "https://teacher-portal-c5q8.onrender.com/api";
 
 const SUBJECTS = [
   "Mathematics", "Physics", "Chemistry", "Biology", "English",
