@@ -106,7 +106,7 @@ export default function ApplicantForm({ onLogout }) {
                 <input className="input" required value={form.full_name} onChange={(e) => set("full_name", e.target.value)} placeholder="Your full name" />
               </div>
               <div>
-                <label>Date of Birth</label>
+                <label>Date of Birth <span style={{color:"var(--red)"}}>*</span></label>
                 <input className="input" type="date" value={form.date_of_birth} onChange={(e) => set("date_of_birth", e.target.value)} />
               </div>
               <div>
@@ -121,7 +121,7 @@ export default function ApplicantForm({ onLogout }) {
           </div>
 
           <div style={styles.section} className="fade-up-3">
-            <h3 style={styles.sectionTitle}><span style={styles.sectionNum}>02</span> Teaching Subjects</h3>
+           <h3 style={styles.sectionTitle}><span style={styles.sectionNum}>02</span> Teaching Subjects <span style={{color:"var(--red)"}}>*</span></h3>
             <p style={styles.sectionHint}>Select all subjects you can teach</p>
             <div style={styles.toggleGrid}>
               {SUBJECTS.map((s) => <Toggle key={s} label={s} checked={form.subjects.includes(s)} onChange={() => toggleArr("subjects", s)} />)}
