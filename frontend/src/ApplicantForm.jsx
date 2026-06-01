@@ -47,8 +47,11 @@ export default function ApplicantForm({ onLogout }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setStatus("loading");
+    
     setErrorMsg("");
+    if (!form.date_of_birth) return setErrorMsg("Date of birth is required.");
+    if (form.subjects.length === 0) return setErrorMsg("Please select at least one subject.");
+    setStatus("loading");
     try {
       const res = await fetch(`${API}/applicants`, {
         method: "POST",

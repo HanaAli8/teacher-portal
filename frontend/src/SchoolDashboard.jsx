@@ -100,14 +100,25 @@ export default function SchoolDashboard({ onLogout }) {
   const [applicants, setApplicants] = useState([]);
   const [meta, setMeta] = useState({ subjects: [], grade_levels: [] });
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({ search: "", subject: "", grade: "", status: "", sort: "submitted_at", order: "desc" });
-
+  const [filters, setFilters] = useState({ search: "", subject: "", grade: "", status: "", ageRange: "", sort: "submitted_at", order: "desc" });
   function setFilter(k, v) { setFilters((f) => ({ ...f, [k]: v })); }
 
   const fetchApplicants = useCallback(async () => {
     setLoading(true);
     const params = new URLSearchParams();
-    Object.entries(filters).forEach(([k, v]) => { if (v) params.set(k, v); });
+    Object.entries(filters).forEach(([k, v]) => { if (v && k !== "ageRange") params.set(k, v); });
+    if (filters.ageRange) {
+      const now = new Date();
+      const ranges = {
+        under25: [new Date(now.getFullYear()-25, now.getMonth(), now.getDate()).toISOString().split("T")[0], null],
+        "25to35": [new Date(now.getFullYear()-35, now.getMonth(), now.getDate()).toISOString().split("T")[0], new Date(now.getFullYear()-25, now.getMonth(), now.getDate()).toISOString().split("T")[0]],
+        "35to45": [new Date(now.getFullYear()-45, now.getMonth(), now.getDate()).toISOString().split("T")[0], new Date(now.getFullYear()-35, now.getMonth(), now.getDate()).toISOString().split("T")[0]],
+        over45: [null, new Date(now.getFullYear()-45, now.getMonth(), now.getDate()).toISOString().split("T")[0]],
+      };
+      const [minDob, maxDob] = ranges[filters.ageRange];
+      if (minDob) params.set("minDob", minDob);
+      if (maxDob) params.set("maxDob", maxDob);
+    }
     try {
       const res = await fetch(`${API}/applicants?${params}`);
       const data = await res.json();
@@ -180,11 +191,18 @@ export default function SchoolDashboard({ onLogout }) {
           </select>
           <select className="input" style={{ maxWidth: 160 }} value={filters.status} onChange={(e) => setFilter("status", e.target.value)}>
             <option value="">All Statuses</option>
-            <option value="pending">Pending</option>
-            <option value="reviewed">Reviewed</option>
-            <option value="accepted">Accepted</option>
-            <option value="rejected">Rejected</option>
-          </select>
+             <option value="pending">Pending</option>
+             <option value="reviewed">Reviewed</option>
+             <option value="accepted">Accepted</option>
+             <option value="rejected">Rejected</option>
+            </select>
+            <select className="input" style={{ maxWidth: 160 }} value={filters.ageRange} onChange={(e) => setFilter("ageRange", e.target.value)}>
+            <option value="">All Ages</option>
+            <option value="under25">Under 25</option>
+            <option value="25to35">25 – 35</option>
+            <option value="35to45">35 – 45</option>
+            <option value="over45">Over 45</option>
+            </select>
           <select className="input" style={{ maxWidth: 180 }} value={`${filters.sort}-${filters.order}`}
             onChange={(e) => { const [sort, order] = e.target.value.split("-"); setFilter("sort", sort); setFilter("order", order); }}>
             <option value="submitted_at-desc">Newest First</option>

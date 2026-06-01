@@ -64,6 +64,8 @@ app.get("/api/applicants", async (req, res) => {
   if (subject) { conditions.push(`$${i} = ANY(subjects)`); values.push(subject); i++; }
   if (grade) { conditions.push(`$${i} = ANY(grade_levels)`); values.push(grade); i++; }
   if (status) { conditions.push(`status = $${i}`); values.push(status); i++; }
+  if (req.query.minDob) { conditions.push(`date_of_birth >= $${i}`); values.push(req.query.minDob); i++; }
+  if (req.query.maxDob) { conditions.push(`date_of_birth <= $${i}`); values.push(req.query.maxDob); i++; }
   const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
   const safeSort = ["submitted_at", "full_name"].includes(sort) ? sort : "submitted_at";
   const safeOrder = order === "asc" ? "ASC" : "DESC";
