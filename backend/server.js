@@ -101,7 +101,22 @@ app.patch("/api/applicants/:id/status", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-
+// DELETE APPLICANT
+app.delete("/api/applicants/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      "DELETE FROM teacher_applicants WHERE id = $1 RETURNING *",
+      [id]
+    );
+    if (result.rows.length === 0)
+      return res.status(404).json({ error: "Applicant not found" });
+    res.json({ deleted: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 // GET META (for filter dropdowns)
 app.get("/api/meta", async (req, res) => {
   try {

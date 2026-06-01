@@ -9,7 +9,7 @@ const STATUS_COLORS = {
   rejected: "badge-rejected",
 };
 
-function ApplicantRow({ applicant, onStatusChange }) {
+function ApplicantRow({ applicant, onStatusChange, onDelete }) {
   const [open, setOpen] = useState(false);
   const [updating, setUpdating] = useState(false);
   const a = applicant;
@@ -87,6 +87,18 @@ function ApplicantRow({ applicant, onStatusChange }) {
                     {s}
                   </button>
                 ))}
+                <button
+                  className="btn btn-sm"
+                  style={{ marginLeft: "auto", background: "var(--red)", color: "#fff", border: "none" }}
+                  disabled={updating}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (window.confirm(`Delete ${a.full_name}'s application? They will be able to apply again.`)) {
+                      onDelete(a.id);
+                    }
+                  }}>
+                  Delete
+                </button>
               </div>
             </div>
           </td>
@@ -136,7 +148,14 @@ export default function SchoolDashboard({ onLogout }) {
   function handleStatusChange(id, newStatus) {
     setApplicants((prev) => prev.map((a) => (a.id === id ? { ...a, status: newStatus } : a)));
   }
-
+ async function handleDelete(id) {
+    try {
+      await fetch(`${API}/applicants/${id}`, { method: "DELETE" });
+      setApplicants((prev) => prev.filter((a) => a.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  }
   const counts = {
     total: applicants.length,
     pending: applicants.filter((a) => a.status === "pending").length,
@@ -234,7 +253,7 @@ export default function SchoolDashboard({ onLogout }) {
                 </tr>
               </thead>
               <tbody>
-                {applicants.map((a) => <ApplicantRow key={a.id} applicant={a} onStatusChange={handleStatusChange} />)}
+                {applicants.map((a) => <ApplicantRow key={a.id} applicant={a} onStatusChange={handleStatusChange} onDelete={handleDelete} />)}
               </tbody>
             </table>
           )}
