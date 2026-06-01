@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-const API = "/api";
+const API = "https://ample-art-production-4160.up.railway.app/api";
 
 const STATUS_COLORS = {
   pending:  "badge-pending",
