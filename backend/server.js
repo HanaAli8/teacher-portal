@@ -41,8 +41,14 @@ app.post("/api/applicants", async (req, res) => {
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    if (err.code === "23505")
-      return res.status(409).json({ error: "This email already has an application" });
+    if (err.code === "23505") {
+      if (err.detail.includes("email")) {
+        return res.status(409).json({ error: "This email already has an application" });
+      }
+      if (err.detail.includes("phone")) {
+        return res.status(409).json({ error: "This phone number already has an application" });
+      }
+    }
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
