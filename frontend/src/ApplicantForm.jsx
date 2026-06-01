@@ -28,6 +28,10 @@ function Toggle({ label, checked, onChange }) {
   );
 }
 
+function RequiredMark() {
+  return <span style={styles.requiredMark}>*</span>;
+}
+
 export default function ApplicantForm({ onLogout }) {
   const [form, setForm] = useState({
     full_name: "", email: "", phone: "", date_of_birth: "",
@@ -102,26 +106,26 @@ export default function ApplicantForm({ onLogout }) {
             <h3 style={styles.sectionTitle}><span style={styles.sectionNum}>01</span> Personal Information</h3>
             <div style={styles.grid2}>
               <div>
-                <label>Full Name *</label>
+                <label>Full Name <RequiredMark /></label>
                 <input className="input" required value={form.full_name} onChange={(e) => set("full_name", e.target.value)} placeholder="Your full name" />
               </div>
               <div>
-                <label>Date of Birth <span style={{color:"var(--red)"}}>*</span></label>
-                <input className="input" type="date" value={form.date_of_birth} onChange={(e) => set("date_of_birth", e.target.value)} />
+                <label>Date of Birth <RequiredMark /></label>
+                <input className="input" type="date" required value={form.date_of_birth} onChange={(e) => set("date_of_birth", e.target.value)} />
               </div>
               <div>
-                <label>Email Address *</label>
+                <label>Email Address <RequiredMark /></label>
                 <input className="input" type="email" required value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="you@email.com" />
               </div>
               <div>
-                <label>Phone Number</label>
-                <input className="input" type="tel" value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="+961 ..." />
+                <label>Phone Number <RequiredMark /></label>
+                <input className="input" type="tel" required value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="+961 ..." />
               </div>
             </div>
           </div>
 
           <div style={styles.section} className="fade-up-3">
-           <h3 style={styles.sectionTitle}><span style={styles.sectionNum}>02</span> Teaching Subjects <span style={{color:"var(--red)"}}>*</span></h3>
+           <h3 style={styles.sectionTitle}><span style={styles.sectionNum}>02</span> Teaching Subjects <RequiredMark /></h3>
             <p style={styles.sectionHint}>Select all subjects you can teach</p>
             <div style={styles.toggleGrid}>
               {SUBJECTS.map((s) => <Toggle key={s} label={s} checked={form.subjects.includes(s)} onChange={() => toggleArr("subjects", s)} />)}
@@ -162,6 +166,7 @@ const styles = {
   section: { background: "#fff", borderRadius: 14, padding: "28px 30px", boxShadow: "var(--shadow)" },
   sectionTitle: { fontFamily: "var(--ff-display)", fontSize: "1.15rem", fontWeight: 600, marginBottom: 6, display: "flex", alignItems: "center", gap: 12 },
   sectionNum: { color: "var(--gold)", fontSize: "0.75rem", fontFamily: "var(--ff-body)", fontWeight: 700, letterSpacing: "0.08em" },
+  requiredMark: { color: "var(--red)" },
   sectionHint: { color: "var(--ink-light)", fontSize: "0.82rem", marginBottom: 16 },
   grid2: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginTop: 18 },
   toggleGrid: { display: "flex", flexWrap: "wrap", gap: 8 },
