@@ -1,5 +1,5 @@
 import { useState } from "react";
-const API = "https://ample-art-production-4160.up.railway.app/api";
+const API = "https://imanschools.edu.lb/api";
 
 const SUBJECTS = [
   "Mathematics", "Physics", "Chemistry", "Biology", "English",
