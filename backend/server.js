@@ -70,13 +70,17 @@ app.post("/api/applicants", async (req, res) => {
 // helper to parse JSON arrays from MySQL
 function parseApplicant(a) {
   if (!a) return a;
+  function parseField(val) {
+    if (!val) return [];
+    if (Array.isArray(val)) return val;
+    try { return JSON.parse(val); } catch(e) { return val.split(",").map(s => s.trim()).filter(Boolean); }
+  }
   return {
     ...a,
-    subjects: typeof a.subjects === "string" ? JSON.parse(a.subjects) : a.subjects || [],
-    grade_levels: typeof a.grade_levels === "string" ? JSON.parse(a.grade_levels) : a.grade_levels || [],
+    subjects: parseField(a.subjects),
+    grade_levels: parseField(a.grade_levels),
   };
 }
-
 // GET APPLICANTS (with filters)
 app.get("/api/applicants", async (req, res) => {
   const { search, subject, grade, status, sort = "submitted_at", order = "desc", minDob, maxDob } = req.query;
