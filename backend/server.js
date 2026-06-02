@@ -73,7 +73,14 @@ function parseApplicant(a) {
   function parseField(val) {
     if (!val) return [];
     if (Array.isArray(val)) return val;
-    try { return JSON.parse(val); } catch(e) { return val.split(",").map(s => s.trim()).filter(Boolean); }
+    if (typeof val === "string") {
+      const trimmed = val.trim();
+      if (trimmed.startsWith("[")) {
+        try { return JSON.parse(trimmed); } catch(e) { return []; }
+      }
+      return trimmed.split(",").map(s => s.trim()).filter(Boolean);
+    }
+    return [];
   }
   return {
     ...a,
