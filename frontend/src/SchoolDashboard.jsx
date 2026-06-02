@@ -17,7 +17,7 @@ function ApplicantRow({ applicant, onStatusChange, onDelete }) {
   async function updateStatus(newStatus) {
     setUpdating(true);
     try {
-      const res = await fetch(`${API}/applicants/${a.id}/status`, {
+      const res = await fetch(`${API}/applicants.php?id=${a.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -132,7 +132,7 @@ export default function SchoolDashboard({ onLogout }) {
       if (maxDob) params.set("maxDob", maxDob);
     }
     try {
-      const res = await fetch(`${API}/applicants?${params}`);
+      const res =  await fetch(`${API}/applicants.php?${params}`);
       const data = await res.json();
       setApplicants(data);
     } catch (e) { console.error(e); }
@@ -140,7 +140,7 @@ export default function SchoolDashboard({ onLogout }) {
   }, [filters]);
 
   useEffect(() => {
-    fetch(`${API}/meta`).then((r) => r.json()).then(setMeta).catch(console.error);
+    fetch(`${API}/meta.php`).then((r) => r.json()).then(setMeta).catch(console.error);
   }, []);
 
   useEffect(() => { fetchApplicants(); }, [fetchApplicants]);
@@ -150,7 +150,7 @@ export default function SchoolDashboard({ onLogout }) {
   }
  async function handleDelete(id) {
     try {
-      await fetch(`${API}/applicants/${id}`, { method: "DELETE" });
+      await fetch(`${API}/applicants.php?id=${id}`, { method: "DELETE" });
       setApplicants((prev) => prev.filter((a) => a.id !== id));
     } catch (err) {
       console.error(err);

@@ -57,7 +57,7 @@ export default function ApplicantForm({ onLogout }) {
     if (form.subjects.length === 0) return setErrorMsg("Please select at least one subject.");
     setStatus("loading");
     try {
-      const res = await fetch(`${API}/applicants`, {
+      const res = await fetch(`${API}/applicants.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
