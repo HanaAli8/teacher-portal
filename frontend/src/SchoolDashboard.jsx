@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import logoFull from "./assets/logo-full.png";
 
 const API = "https://imanschools.edu.lb/api";
 
@@ -166,8 +167,9 @@ export default function SchoolDashboard({ onLogout }) {
     <div style={styles.page}>
       <aside style={styles.sidebar}>
         <div style={styles.sidebarTop}>
-          <div style={styles.logoMark}>✦</div>
-          <div style={styles.brand}>TeachConnect</div>
+          <div style={styles.logoWrap}>
+            <img src={logoFull} alt="Iman Islamic Schools" style={styles.logoImg} />
+          </div>
           <div style={styles.schoolLabel}>School Portal</div>
         </div>
         <div style={styles.statsBox}>
@@ -267,8 +269,8 @@ const styles = {
   page: { display: "flex", minHeight: "100vh" },
   sidebar: { width: 220, background: "var(--ink)", color: "#fff", display: "flex", flexDirection: "column", padding: "32px 20px", flexShrink: 0 },
   sidebarTop: { marginBottom: 32 },
-  logoMark: { color: "var(--gold)", fontSize: 20, marginBottom: 8 },
-  brand: { fontFamily: "var(--ff-display)", fontSize: "1.3rem", fontWeight: 600 },
+  logoWrap: { background: "#fff", borderRadius: 10, padding: "10px 12px", marginBottom: 10, display: "inline-block" },
+  logoImg: { width: 160, display: "block" },
   schoolLabel: { fontSize: "0.72rem", color: "rgba(255,255,255,0.4)", marginTop: 2, textTransform: "uppercase", letterSpacing: "0.08em" },
   statsBox: { background: "rgba(255,255,255,0.06)", borderRadius: 10, padding: "18px 16px", display: "flex", flexDirection: "column", marginBottom: 24 },
   stat: { padding: "10px 0", textAlign: "center" },

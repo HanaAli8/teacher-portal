@@ -1,4 +1,5 @@
 import { useState } from "react";
+import logoFull from "./assets/logo-full.png";
 const API = "https://imanschools.edu.lb/api";
 
 export default function LoginPage({ onLogin }) {
@@ -30,11 +31,9 @@ export default function LoginPage({ onLogin }) {
     <div style={styles.page}>
       <div style={styles.left}>
         <div style={styles.leftInner}>
-          <div style={styles.logoMark}>✦</div>
-          <h1 style={styles.brand}>TeachConnect</h1>
-          <p style={styles.tagline}>
-            Connecting exceptional educators<br />with the schools that need them.
-          </p>
+          <div style={styles.logoWrap}>
+            <img src={logoFull} alt="Iman Islamic Schools" style={styles.logoImg} />
+          </div>
           <div style={styles.decorLine} />
           <div style={styles.roles}>
             <div style={styles.roleCard}>
@@ -92,9 +91,8 @@ const styles = {
   page: { display: "flex", minHeight: "100vh" },
   left: { flex: "0 0 480px", background: "var(--ink)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", padding: "60px 48px" },
   leftInner: { maxWidth: 340 },
-  logoMark: { fontSize: 28, color: "var(--gold)", marginBottom: 12 },
-  brand: { fontFamily: "var(--ff-display)", fontSize: "2.8rem", fontWeight: 600, lineHeight: 1, marginBottom: 16, color: "#fff" },
-  tagline: { fontFamily: "var(--ff-display)", fontStyle: "italic", fontSize: "1.05rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.6, marginBottom: 32 },
+  logoWrap: { background: "#fff", borderRadius: 14, padding: "16px 20px", marginBottom: 28, display: "inline-block" },
+  logoImg: { width: 200, display: "block" },
   decorLine: { width: 48, height: 2, background: "var(--gold)", marginBottom: 32 },
   roles: { display: "flex", flexDirection: "column", gap: 16 },
   roleCard: { display: "flex", alignItems: "flex-start", gap: 14, padding: "16px 18px", borderRadius: 10, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" },
