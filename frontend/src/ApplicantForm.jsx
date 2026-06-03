@@ -143,7 +143,7 @@ export default function ApplicantForm({ onLogout }) {
          {(status === "error" || errorMsg) && <div style={styles.errorBox}>{errorMsg}</div>}
 
           <div style={styles.submitRow}>
-            <button type="submit" className="btn btn-gold" style={{ padding: "13px 36px", fontSize: "0.95rem" }} disabled={status === "loading"}>
+            <button type="submit" className="btn btn-primary" style={{ padding: "13px 36px", fontSize: "0.95rem" }} disabled={status === "loading"}>
               {status === "loading" ? <span className="spinner" /> : "Submit Application →"}
             </button>
           </div>
